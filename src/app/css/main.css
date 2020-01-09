@@ -1,0 +1,27 @@
+
+
+.test {
+    background-color: #eee;
+    padding: 10px;
+    border: 3px solid #ccc;
+}
+
+.error_message {
+    color:red;
+}
+
+.nav_button:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.post_cover_img{
+    height: 220px;
+    width:250px;
+}
+
+.title_image{
+    width:1200px;
+    height:300px;
+}
+

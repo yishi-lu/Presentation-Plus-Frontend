@@ -31,6 +31,12 @@
     border-radius: 50px;
 }
 
+.subcomment_portrait{
+    width:70px;
+    height:70px;
+    border-radius: 50px;
+}
+
 .text_wrap{
     word-wrap: break-word;
 }

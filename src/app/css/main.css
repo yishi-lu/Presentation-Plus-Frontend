@@ -25,3 +25,13 @@
     height:300px;
 }
 
+.comment_portrait{
+    width:100px;
+    height:100px;
+    border-radius: 50px;
+}
+
+.text_wrap{
+    word-wrap: break-word;
+}
+

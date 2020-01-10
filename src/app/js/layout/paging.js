@@ -10,11 +10,11 @@ class Paging extends Component{
 
     render(){
 
-        let page_menu = [], index_first = 1, index_last = this.props.posts_info.last_page;
+        let page_menu = [], index_first = 1, index_last = this.props.data_info.last_page;
 
         for(let i=index_first; i<=index_last; i++){
             page_menu.push(
-            <Dropdown.Item key={i} name={this.props.posts_info.path + "/?page=" + i} onClick={this.props.pagination}>Page: {i}</Dropdown.Item>
+            <Dropdown.Item key={i} name={this.props.data_info.path + "/?page=" + i} onClick={this.props.pagination}>Page: {i}</Dropdown.Item>
             )
         }
 
@@ -24,32 +24,32 @@ class Paging extends Component{
             <nav aria-label="Page navigation">
                 <ul className="pagination">
                     <li className="page-item">
-                        <a className={this.props.styles.page_link + " page-link"} name={this.props.posts_info.first_page_url} onClick={this.props.pagination}>First</a>
+                        <a className={this.props.styles.page_link + " page-link"} name={this.props.data_info.first_page_url} onClick={this.props.pagination}>First</a>
                     </li>
                     <li className="page-item mr-3">
-                        {this.props.posts_info.current_page == 1?
+                        {this.props.data_info.current_page == 1?
                             <a className="page-link">Prev</a>
                             :
-                            <a className={this.props.styles.page_link + " page-link"} name={this.props.posts_info.prev_page_url} onClick={this.props.pagination}>Prev</a>
+                            <a className={this.props.styles.page_link + " page-link"} name={this.props.data_info.prev_page_url} onClick={this.props.pagination}>Prev</a>
                         }   
                     </li>
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                            Page: {this.props.posts_info.current_page}
+                            Page: {this.props.data_info.current_page}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             {page_menu}
                         </Dropdown.Menu>
                     </Dropdown>
                     <li className="page-item ml-3">
-                        {this.props.posts_info.current_page == index_last?
+                        {this.props.data_info.current_page == index_last?
                             <a className="page-link">Next</a>
                             :
-                            <a className={this.props.styles.page_link + " page-link"} name={this.props.posts_info.next_page_url} onClick={this.props.pagination}>Next</a>
+                            <a className={this.props.styles.page_link + " page-link"} name={this.props.data_info.next_page_url} onClick={this.props.pagination}>Next</a>
                         }  
                     </li>
                     <li className="page-item">
-                        <a className={this.props.styles.page_link + " page-link"} name={this.props.posts_info.last_page_url} onClick={this.props.pagination}>Last</a>
+                        <a className={this.props.styles.page_link + " page-link"} name={this.props.data_info.last_page_url} onClick={this.props.pagination}>Last</a>
                     </li>
                 </ul>
             </nav>

@@ -8,6 +8,8 @@ import {
 
 import axios from 'axios';
 
+import Comment from '../comment/comment_fetch.js';
+
 class Post extends Component{
 
     constructor(props){
@@ -121,6 +123,8 @@ class Post extends Component{
                     <Row><br/></Row>
                     <Row className='justify-content-md-center'><div>{ ReactHtmlParser (this.state.post_detail.content)}</div></Row>
                     <Row><br/></Row>
+                    <Row className='border-bottom'><br/></Row>
+                    <Row><Comment postID={this.props.urlInfo.match.params.id} styles={this.props.styles}></Comment></Row>
                 </Container>
             );
         }

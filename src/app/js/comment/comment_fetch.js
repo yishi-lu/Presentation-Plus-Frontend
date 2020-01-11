@@ -39,20 +39,32 @@ class Comment extends Component{
         this.changeInput = this.changeInput.bind(this);
         this.createComment = this.createComment.bind(this);
         this.show_subcomment_form = this.show_subcomment_form.bind(this);
-        this.create_subcomment = this.create_subcomment.bind(this);
+        this.create_comment_initial = this.create_comment_initial.bind(this);
     }
 
-    create_subcomment(event){
-        this.createComment(this.state.sub_title, this.state.sub_content, event.target.id);
+    create_comment_initial(event){
 
-        this.setState({
-            sub_title: "",
-            sub_content: "",
-            suberrors: {sub_title:"", sub_content:""},
-        })
+        if(event.target.id == ""){
+            this.createComment(this.state.title, this.state.content);
+
+            this.setState({
+                title: "",
+                content: "",
+                errors: {title:"", content:""},
+            })
+        }
+        else {
+            this.createComment(this.state.sub_title, this.state.sub_content, event.target.id);
+
+            this.setState({
+                sub_title: "",
+                sub_content: "",
+                suberrors: {sub_title:"", sub_content:""},
+            })
+        }
     }
 
-    createComment(new_title = "", new_content = "", threadID = ""){
+    createComment(title = "-1", content = "-1", threadID = "-1"){
 
         if(this.state.auth_user == null) {
             alert("You must login to post comments!");
@@ -67,17 +79,22 @@ class Comment extends Component{
             }
         }
 
+        console.log(title)
+        console.log(content)
+        console.log(threadID)
+
         var data;
-        if(new_title == "" && new_content == "" && threadID == ""){
+        if(title == "-1" && content == "-1" && threadID == "-1"){
             data = {post_id: this.props.postID, 
-                        title: this.state.title,
-                        content: this.state.content};
+                        title: title,
+                        content: content};
+
         }
         else {
             data = {
                 post_id: this.props.postID, 
-                        title: new_title,
-                        content: new_content,
+                        title: title,
+                        content: content,
                         comment_id: threadID,
             }
         }
@@ -242,7 +259,7 @@ class Comment extends Component{
 
                                     </Form>
                                     <div>
-                                        <Button variant="primary" type="submit" onClick={this.createComment}>
+                                        <Button variant="primary" type="submit" onClick={this.create_comment_initial}>
                                             Post Comment
                                         </Button>
                                     </div>
@@ -254,6 +271,8 @@ class Comment extends Component{
             if(this.state.comments.data.length > 0){
                 
                 this.state.comments.data.forEach((comment, idx) => {
+
+                    console.log(comment);
 
                     let image_path = comment.portrait.includes('profile_portrait/') ? "http://www.presentation-plus.com/storage/"+comment.portrait : comment.portrait;
         
@@ -298,7 +317,7 @@ class Comment extends Component{
 
                                         </Form>
                                         <div>
-                                            <Button variant="primary" type="submit" id={comment.id} onClick={this.create_subcomment}>
+                                            <Button variant="primary" type="submit" id={comment.id} onClick={this.create_comment_initial}>
                                                 Post Comment
                                             </Button>
                                         </div>

@@ -25,6 +25,14 @@ class SubComment extends Component{
         this.show_comment_frame = this.show_comment_frame.bind(this);
         this.changeInput = this.changeInput.bind(this);
         this.create_subcomment = this.create_subcomment.bind(this);
+        this.post_subcomments_pagination = this.post_subcomments_pagination.bind(this);
+    }
+
+    post_subcomments_pagination(event){
+
+        var url = event.target.getAttribute('name');
+
+        this.props.sub_comment_paging(url);
     }
 
     create_subcomment(){
@@ -121,6 +129,7 @@ class SubComment extends Component{
         return(
             <Container>
                 {content}
+                <Row className='justify-content-md-center mt-5 mb-3'><Paging data_info={this.props.subcomments} pagination={this.post_subcomments_pagination} styles={this.props.styles}/></Row>
                 {this.state.create_comment ? new_comment_form : <span></span>}
             </Container>
         )

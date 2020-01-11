@@ -40,6 +40,7 @@ class Comment extends Component{
         this.createComment = this.createComment.bind(this);
         this.show_subcomment_form = this.show_subcomment_form.bind(this);
         this.create_comment_initial = this.create_comment_initial.bind(this);
+        this.sub_comment_paging = this.sub_comment_paging.bind(this);
     }
 
     create_comment_initial(event){
@@ -211,6 +212,40 @@ class Comment extends Component{
         );
     }
 
+    sub_comment_paging(url){
+        console.log(url);
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        axios.get(url, config)
+             .then(result => {
+                console.log(result.data.success.data);
+
+                if(!Array.isArray(result.data.success.data)){
+                    // let temp = result.data.success.data;
+                    // let arr = Object.keys(temp).map((k) => temp[k]);
+                    // result.data.success.data = arr;
+                    result.data.success.data = Object.keys(result.data.success.data).map((k) => result.data.success.data[k]);
+                }
+
+                result.data.success.data.map(item=> item.addSub = false)
+
+                this.setState({
+                    comments: result.data.success,
+                    loaded_data: true,
+                })
+             })
+             .catch(error => {
+                console.log("ERRRR:: ",error);
+
+            }
+        );
+    }
+
     componentDidMount(){
         
         const post_id = this.props.postID;
@@ -326,7 +361,7 @@ class Comment extends Component{
                                 : <span></span>}
                                 {comment.sub_comments.data.length > 0 
                                     ? 
-                                    <SubComment subcomments={comment.sub_comments} styles={this.props.styles} threadID={comment.id} createComment={this.createComment}/>  
+                                    <SubComment sub_comment_paging={this.sub_comment_paging} subcomments={comment.sub_comments} styles={this.props.styles} threadID={comment.id} createComment={this.createComment}/>  
                                     : 
                                     <span></span>}
                             </Col>    

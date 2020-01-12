@@ -91,7 +91,7 @@ class Post extends Component{
              })
              .catch(error => {
                 console.log("ERRRR:: ",error);
-                window.location.href = '/';
+                // window.location.href = '/';
             }
         );
     }

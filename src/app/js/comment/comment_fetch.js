@@ -41,6 +41,73 @@ class Comment extends Component{
         this.show_subcomment_form = this.show_subcomment_form.bind(this);
         this.create_comment_initial = this.create_comment_initial.bind(this);
         this.sub_comment_paging = this.sub_comment_paging.bind(this);
+        this.like_comment = this.like_comment.bind(this);
+        this.like_comment_initial = this.like_comment_initial.bind(this);
+    }
+
+    like_comment_initial(event){
+
+        this.like_comment(event.target.id);
+    }
+
+    like_comment(comment_id){
+
+        if(this.state.auth_user == null || this.state.auth_user == "") {
+            alert("You must login to thumb a comment!");
+            return;
+        }
+
+        const url = "http://www.presentation-plus.com/api/comment/thumb";
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const data = {comment_id: comment_id};
+
+        axios.post(url, data, config)
+             .then(result => {
+                console.log(result);
+
+                const post_id = this.props.postID;
+
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+
+                const url = 'http://www.presentation-plus.com/api/comment/postComments/'+post_id;
+
+                axios.get(url, config)
+                    .then(result => {
+
+                        console.log(result.data.success);
+                        console.log(url);
+
+                        result.data.success.data.map(item=> item.addSub = false)
+
+                        this.setState({
+                            comments: result.data.success,
+                            loaded_data: true,
+                            title: "",
+                            content: "",
+                        })
+                    })
+                    .catch(error => {
+                        console.log("ERRRR:: ",error);
+                        // window.location.href = '/';
+                    });
+             })
+             .catch(error => {
+                console.log("ERRRR:: ",error.response.data.errors);
+                this.setState({
+                    errors: error.response.data.errors
+                })
+            });
+
     }
 
     create_comment_initial(event){
@@ -67,7 +134,7 @@ class Comment extends Component{
 
     createComment(title = "-1", content = "-1", threadID = "-1"){
 
-        if(this.state.auth_user == null) {
+        if(this.state.auth_user == null || this.state.auth_user == "") {
             alert("You must login to post comments!");
             return;
         }
@@ -139,12 +206,16 @@ class Comment extends Component{
                 this.setState({
                     errors: error.response.data.errors
                 })
-            }
-        );
+            });
 
     }
 
     show_subcomment_form(event){
+
+        if(this.state.auth_user == null || this.state.auth_user == "") {
+            alert("You must login to post comments!");
+            return;
+        }
 
         let id = event.target.id;
 
@@ -312,7 +383,7 @@ class Comment extends Component{
                     let image_path = comment.portrait.includes('profile_portrait/') ? "http://www.presentation-plus.com/storage/"+comment.portrait : comment.portrait;
         
                     content.push(
-                        <Row key={idx} className="mt-4">
+                        <Row key={idx} className="mt-4 border-bottom pb-3">
                             <Col sm md={2}>
                                 <Link to={'/profile/detail/'+comment.user_id}>
                                     <Image src={image_path} className={this.props.styles.comment_portrait} />
@@ -332,9 +403,14 @@ class Comment extends Component{
                                 </div>
                                 <div>
                                     <span className="mr-5">{comment.created_at}</span>
-                                    <span className="mr-5"><i className="fas fa-thumbs-up"></i>  {comment.liked}</span>
+                                    <span className="mr-5">
+                                        <i className={comment.is_liked ? this.props.styles.liked_style + " fas fa-thumbs-up":" fas fa-thumbs-up"} 
+                                            id={comment.id} onClick={this.like_comment_initial}>
+                                        </i>  
+                                            {comment.liked}
+                                    </span>
                                     <span className="mr-5"><i className="fas fa-thumbs-down"></i></span>
-                                    <span className="mr-5"><i className="fas fa-comment-dots" id={comment.id} onClick={this.show_subcomment_form}></i></span>
+                                    <span className="mr-5"><i className="fas fa-comment-dots text-primary" id={comment.id} onClick={this.show_subcomment_form}></i></span>
                                 </div> 
                                 {comment.addSub ? 
 
@@ -361,7 +437,13 @@ class Comment extends Component{
                                 : <span></span>}
                                 {comment.sub_comments.data.length > 0 
                                     ? 
-                                    <SubComment sub_comment_paging={this.sub_comment_paging} subcomments={comment.sub_comments} styles={this.props.styles} threadID={comment.id} createComment={this.createComment}/>  
+                                    <SubComment 
+                                        like_comment={this.like_comment} 
+                                        sub_comment_paging={this.sub_comment_paging} 
+                                        subcomments={comment.sub_comments} 
+                                        styles={this.props.styles} threadID={comment.id} 
+                                        createComment={this.createComment}
+                                    />  
                                     : 
                                     <span></span>}
                             </Col>    
@@ -374,7 +456,7 @@ class Comment extends Component{
                 return(
                     <Container>
                         {content}
-                        <Row className='justify-content-md-center mt-5 mb-3'>
+                        <Row className='mt-5 mb-3'>
                             <Paging data_info={this.state.comments} pagination={this.post_comments_pagination} styles={this.props.styles}/>
                         </Row>
                         {new_comment_form}

@@ -26,6 +26,12 @@ class SubComment extends Component{
         this.changeInput = this.changeInput.bind(this);
         this.create_subcomment = this.create_subcomment.bind(this);
         this.post_subcomments_pagination = this.post_subcomments_pagination.bind(this);
+        this.like_comment_initial = this.like_comment_initial.bind(this);
+    }
+
+    like_comment_initial(event){
+
+        this.props.like_comment(event.target.id);
     }
 
     post_subcomments_pagination(event){
@@ -115,9 +121,14 @@ class SubComment extends Component{
                         </div>
                         <div>
                             <span className="mr-5">{comment.created_at}</span>
-                            <span className="mr-5"><i className="fas fa-thumbs-up"></i>  {comment.liked}</span>
+                            <span className="mr-5">
+                                <i className={comment.is_liked ? this.props.styles.liked_style + " fas fa-thumbs-up":" fas fa-thumbs-up"} 
+                                    id={comment.id} onClick={this.like_comment_initial}>
+                                </i>   
+                                {comment.liked}
+                            </span>
                             <span className="mr-5"><i className="fas fa-thumbs-down"></i></span>
-                            <span className="mr-5"><i className="fas fa-comment-dots" onClick={this.show_comment_frame}></i></span>
+                            <span className="mr-5"><i className="fas fa-comment-dots text-primary" onClick={this.show_comment_frame}></i></span>
                         </div> 
                     </Col>    
                 </Row>

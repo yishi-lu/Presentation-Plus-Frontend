@@ -18,7 +18,7 @@ class Paging extends Component{
             )
         }
 
-        console.log(this.props);
+        // console.log(this.props);
 
         return(
             <nav aria-label="Page navigation">

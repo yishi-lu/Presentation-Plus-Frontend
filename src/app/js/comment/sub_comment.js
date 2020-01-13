@@ -122,13 +122,13 @@ class SubComment extends Component{
                         <div>
                             <span className="mr-5">{comment.created_at}</span>
                             <span className="mr-5">
-                                <i className={comment.is_liked ? this.props.styles.liked_style + " fas fa-thumbs-up":" fas fa-thumbs-up"} 
+                                <i className={comment.is_liked ? this.props.styles.liked_style + " " + this.props.styles.hover_pointer + " fas fa-thumbs-up" :this.props.styles.hover_pointer + " fas fa-thumbs-up"} 
                                     id={comment.id} onClick={this.like_comment_initial}>
                                 </i>   
                                 {comment.liked}
                             </span>
-                            <span className="mr-5"><i className="fas fa-thumbs-down"></i></span>
-                            <span className="mr-5"><i className="fas fa-comment-dots text-primary" onClick={this.show_comment_frame}></i></span>
+                            {/* <span className="mr-5"><i className="fas fa-thumbs-down"></i></span> */}
+                            <span className="mr-5"><i className={this.props.styles.comment_post + " fas fa-comment-dots text-primary"} onClick={this.show_comment_frame}></i></span>
                         </div> 
                     </Col>    
                 </Row>

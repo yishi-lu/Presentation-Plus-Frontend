@@ -45,3 +45,11 @@
     color:pink;
 }
 
+.liked_style:hover{
+    cursor: pointer;
+}
+
+.hover_pointer:hover{
+    cursor: pointer;
+}
+

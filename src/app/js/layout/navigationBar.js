@@ -23,6 +23,7 @@ import Post_Edit from '../post/post_edit.js';
 
 import Profile from '../profile/profile.js';
 import Edit_Profile from '../profile/edit_profile.js';
+import CollectedPosts from '../component/fetch_collected_posts.js';
 
 // import styles from '../../css/main.css';
 
@@ -93,17 +94,16 @@ class NavigationBar extends Component{
                     <Navbar.Collapse>
                         {
                             this.state.userInfo !== "" ? 
-                            <div className="ml-auto">
-                                {/* <div to={"/profile/detail/"+this.state.userInfo.id} className={this.props.styles.nav_button+" mr-2"}> */}
-                                    <span 
-                                        name={"/profile/detail/"+this.state.userInfo.id} 
-                                        className={this.props.styles.nav_button+" mr-2"}
-                                        onClick={this.auth_user_profile}>
-                                            Welcome, {this.state.userInfo.name}
-                                    </span>
-                                {/* </div> */}
-                                <span onClick={this.logoutUser} className={this.props.styles.nav_button+" ml-2"}>Logout</span>
-                            </div> 
+                            <Nav className="ml-auto">
+                                <NavItem  
+                                    name={"/profile/detail/"+this.state.userInfo.id} 
+                                    className={this.props.styles.nav_button+" mr-2"}
+                                    onClick={this.auth_user_profile}>
+                                        Welcome, {this.state.userInfo.name}
+                                </NavItem >
+                                <NavItem ><CollectedPosts /></NavItem >
+                                <NavItem  onClick={this.logoutUser} className={this.props.styles.nav_button+" ml-2"}>Logout</NavItem >
+                            </Nav>
                             :
                             <Nav className="ml-auto">
                                 <LinkContainer to="/register" className={this.props.styles.nav_button+" mr-2"}>

@@ -69,7 +69,7 @@ class Comment extends Component{
 
         axios.post(url, data, config)
              .then(result => {
-                console.log(result);
+                // console.log(result);
 
                 const post_id = this.props.postID;
 
@@ -84,8 +84,8 @@ class Comment extends Component{
                 axios.get(url, config)
                     .then(result => {
 
-                        console.log(result.data.success);
-                        console.log(url);
+                        // console.log(result.data.success);
+                        // console.log(url);
 
                         result.data.success.data.map(item=> item.addSub = false)
 
@@ -147,9 +147,9 @@ class Comment extends Component{
             }
         }
 
-        console.log(title)
-        console.log(content)
-        console.log(threadID)
+        // console.log(title)
+        // console.log(content)
+        // console.log(threadID)
 
         var data;
         if(title == "-1" && content == "-1" && threadID == "-1"){
@@ -169,7 +169,7 @@ class Comment extends Component{
         
         axios.post(url, data, config)
              .then(result => {
-                console.log(result);
+                // console.log(result);
 
                 const post_id = this.props.postID;
 
@@ -184,8 +184,8 @@ class Comment extends Component{
                 axios.get(url, config)
                     .then(result => {
 
-                        console.log(result.data.success);
-                        console.log(url);
+                        // console.log(result.data.success);
+                        // console.log(url);
 
                         result.data.success.data.map(item=> item.addSub = false)
 
@@ -260,7 +260,7 @@ class Comment extends Component{
 
         axios.get(url, config)
              .then(result => {
-                console.log(result.data.success.data);
+                // console.log(result.data.success.data);
 
                 if(!Array.isArray(result.data.success.data)){
                     // let temp = result.data.success.data;
@@ -294,7 +294,7 @@ class Comment extends Component{
 
         axios.get(url, config)
              .then(result => {
-                console.log(result.data.success.data);
+                // console.log(result.data.success.data);
 
                 if(!Array.isArray(result.data.success.data)){
                     // let temp = result.data.success.data;
@@ -332,8 +332,8 @@ class Comment extends Component{
         axios.get(url, config)
              .then(result => {
 
-                console.log(result.data.success);
-                console.log(url);
+                // console.log(result.data.success);
+                // console.log(url);
 
                 result.data.success.data.map(item=> item.addSub = false)
 
@@ -378,7 +378,7 @@ class Comment extends Component{
                 
                 this.state.comments.data.forEach((comment, idx) => {
 
-                    console.log(comment);
+                    // console.log(comment);
 
                     let image_path = comment.portrait.includes('profile_portrait/') ? "http://www.presentation-plus.com/storage/"+comment.portrait : comment.portrait;
         
@@ -404,13 +404,13 @@ class Comment extends Component{
                                 <div>
                                     <span className="mr-5">{comment.created_at}</span>
                                     <span className="mr-5">
-                                        <i className={comment.is_liked ? this.props.styles.liked_style + " fas fa-thumbs-up":" fas fa-thumbs-up"} 
+                                        <i className={comment.is_liked ? this.props.styles.liked_style + " " + this.props.styles.hover_pointer + " fas fa-thumbs-up" :this.props.styles.hover_pointer + " fas fa-thumbs-up"} 
                                             id={comment.id} onClick={this.like_comment_initial}>
                                         </i>  
                                             {comment.liked}
                                     </span>
-                                    <span className="mr-5"><i className="fas fa-thumbs-down"></i></span>
-                                    <span className="mr-5"><i className="fas fa-comment-dots text-primary" id={comment.id} onClick={this.show_subcomment_form}></i></span>
+                                    {/* <span className="mr-5"><i className="fas fa-thumbs-down"></i></span> */}
+                                    <span className="mr-5"><i className={this.props.styles.hover_pointer + " fas fa-comment-dots text-primary"} id={comment.id} onClick={this.show_subcomment_form}></i></span>
                                 </div> 
                                 {comment.addSub ? 
 

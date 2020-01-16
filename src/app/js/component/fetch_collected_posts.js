@@ -16,6 +16,37 @@ class CollectedPosts extends Component{
           loaded_data: false,
         }
 
+        this.reloadPage = this.reloadPage.bind(this);
+
+
+    }
+
+    componentDidUpdate(prevProps){
+
+        if(this.props.update_nav != prevProps.update_nav){
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+    
+            axios.get('http://www.presentation-plus.com/api/post/collectList', config)
+                 .then(result => {
+                    console.log(result);
+    
+                    this.setState({
+                        posts: result.data.success,
+                        loaded_data: true,
+                    })
+                 })
+                 .catch(error => {
+                    console.log("ERRRR:: ",error);
+                    // window.location.href = '/';
+                }
+            );
+
+        }
+
     }
 
     componentDidMount(){
@@ -42,21 +73,67 @@ class CollectedPosts extends Component{
         );
     }
 
+    reloadPage(event){
+        console.log(event.target.value)
+        // this.props.urlInfo.history.push(event.target.to);
+    }
+
     render(){
 
-        return(
-            <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Collection
-                </Dropdown.Toggle>
+        let content = [];
 
-                <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
-        );
+        if(this.state.loaded_data){
+
+            this.state.posts.forEach((post, id) => {
+                let image_path = post.image_url.includes('post_cover/') ? "http://www.presentation-plus.com/storage/"+post.image_url : post.image_url;
+
+                content.push(
+                    <Link to={'/post/detail/'+post.post_id} key={id} target="_blank">
+                        <Row value={'/post/detail/'+post.post_id} onClick={this.reloadPage}>
+                            <Col>
+                                <Image src={image_path} className={this.props.styles.collected_post_img} ></Image>
+                            </Col>
+                            <Col>
+                                <Container>
+                                    <Row>
+                                        {post.title}
+                                    </Row>
+                                    <Row>
+                                        {post.description}
+                                    </Row>
+                                    <Row>
+                                        {post.name}
+                                    </Row>
+                                </Container>
+                            </Col>
+                        </Row>
+                    </Link>
+
+                )
+            })
+        }
+
+
+        if(this.state.loaded_data){
+            return(
+                <div className={this.props.styles.dropdown}>
+                    <div className={this.props.styles.dropbtn}>Collection</div>
+                    <Container className={this.props.styles.dropdown_content}>
+                        {content}
+                    </Container>
+                </div>
+            );
+        }
+        else return(
+            <div className={this.props.styles.dropdown}>
+                <div className={this.props.styles.dropbtn}>Collection</div>
+                <div className={this.props.styles.dropdown_content}>
+                    <div>loading...</div>
+                </div>
+            </div>
+        )
+
+        
     }
 
 }

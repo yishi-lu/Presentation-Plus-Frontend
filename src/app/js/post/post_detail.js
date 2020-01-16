@@ -24,7 +24,7 @@ class Post extends Component{
           loaded_data: false,
         }
 
-
+        this.collectPost = this.collectPost.bind(this);
     }
 
     componentDidMount(){
@@ -96,6 +96,42 @@ class Post extends Component{
         );
     }
 
+    collectPost(event){
+
+        const id = event.target.id;
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const data = {post_id: id};
+
+        axios.post('http://www.presentation-plus.com/api/post/collect', data, config)
+             .then(result => {
+                console.log(result);
+
+                this.setState(preState => {
+
+                    var post_detail = {...preState.post_detail};
+
+                    if(post_detail.is_collected == 0) post_detail.is_collected = 1;
+                    else post_detail.is_collected = 0;
+
+                    return {post_detail: post_detail}
+                },
+                function(){
+                    this.props.update_nav_fun();
+                }
+                );
+             })
+             .catch(error => {
+                console.log("ERRRR:: ",error);
+                // window.location.href = '/';
+            });
+    }
+
 
     render() {
 
@@ -115,6 +151,16 @@ class Post extends Component{
                             {this.state.auth_user != null && (this.state.auth_user.id == this.state.post_detail.user_id)? 
                                 <span className='ml-3'><Link to={"/post/edit/"+this.state.post_detail.id}><i className="fas fa-edit"></i></Link></span> : 
                                 <span></span>
+                            }
+                            {
+                                this.state.auth_user != null ?
+                                    this.state.post_detail.is_collected > 0 ? 
+                                            <span className='ml-3'><i style={{color: "#007bff"}}  className="fas fa-star" id={this.state.post_detail.id} onClick={this.collectPost}></i></span> 
+                                            :
+                                            <span className='ml-3'><i className="far fa-star" id={this.state.post_detail.id} onClick={this.collectPost}></i></span> 
+
+                                    : 
+                                    <span></span>
                             }
                         </div>
                     </Row>

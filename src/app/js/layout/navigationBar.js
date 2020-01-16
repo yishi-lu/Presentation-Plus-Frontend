@@ -37,10 +37,16 @@ class NavigationBar extends Component{
     
         this.state = {
           userInfo: current_user == null ? "" : current_user,
+          update_nav: false,
         }
         
         this.logoutUser = this.logoutUser.bind(this);
         this.auth_user_profile = this.auth_user_profile.bind(this);
+        this.update_nav_fun = this.update_nav_fun.bind(this);
+    }
+
+    update_nav_fun(){
+        this.setState({update_nav: !this.state.update_nav});
     }
 
     auth_user_profile(event){
@@ -99,9 +105,9 @@ class NavigationBar extends Component{
                                     name={"/profile/detail/"+this.state.userInfo.id} 
                                     className={this.props.styles.nav_button+" mr-2"}
                                     onClick={this.auth_user_profile}>
-                                        Welcome, {this.state.userInfo.name}
-                                </NavItem >
-                                <NavItem ><CollectedPosts /></NavItem >
+                                        {this.state.userInfo.name}
+                                </NavItem>
+                                <NavItem><CollectedPosts styles={this.props.styles} update_nav={this.state.update_nav}/></NavItem >
                                 <NavItem  onClick={this.logoutUser} className={this.props.styles.nav_button+" ml-2"}>Logout</NavItem >
                             </Nav>
                             :
@@ -146,7 +152,7 @@ class NavigationBar extends Component{
                     <Route exact path="/post/detail/:id" 
                         render={
                             (props) => 
-                                <Post urlInfo={props} styles={this.props.styles}/>
+                                <Post urlInfo={props} styles={this.props.styles} update_nav_fun={this.update_nav_fun}/>
                             } 
                     />
                     <Route exact path="/post/create" 
@@ -165,7 +171,7 @@ class NavigationBar extends Component{
                     <Route exact path="/profile/detail/:id" 
                         render={
                             (props) => 
-                                <Profile urlInfo={props} styles={this.props.styles}/>
+                                <Profile urlInfo={props} styles={this.props.styles} />
                             } 
                     />
                     <Route exact path="/profile/edit" 

@@ -3,6 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Presentation-Plus</title>
     <link
       rel="stylesheet"
@@ -23,6 +24,20 @@
           overflow-y: scroll;
           resize: vertical;
           min-height: 18em;
+      }
+
+      @media screen and (min-width: 1200px) {
+        .content_images{
+            width:1200px;
+            height:100%;
+        }
+      }
+
+      @media screen and (max-width: 1200px) {
+        .content_images{
+            width:100%;
+            /* height:300px; */
+        }
       }
     </style>
   </head>

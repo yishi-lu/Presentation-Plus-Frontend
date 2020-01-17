@@ -140,7 +140,11 @@ class SubComment extends Component{
         return(
             <Container>
                 {content}
-                <Row className='justify-content-md-center mt-5 mb-3'><Paging data_info={this.props.subcomments} pagination={this.post_subcomments_pagination} styles={this.props.styles}/></Row>
+                {this.props.subcomments.total > 5 ?
+                    <Row className='justify-content-md-center mt-5 mb-3'><Paging data_info={this.props.subcomments} pagination={this.post_subcomments_pagination} styles={this.props.styles}/></Row>
+                    :
+                    <span></span>
+                }
                 {this.state.create_comment ? new_comment_form : <span></span>}
             </Container>
         )

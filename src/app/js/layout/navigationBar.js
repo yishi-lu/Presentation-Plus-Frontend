@@ -90,33 +90,33 @@ class NavigationBar extends Component{
     render() {
         return (
             <Router>
-                <Navbar bg="light">
+                <Navbar bg="light" expand="sm">
                     <Navbar.Brand>
                         <LinkContainer to="/">
                             <NavItem className={this.props.styles.nav_button}>Presentation-Plus</NavItem>
                         </LinkContainer>
                     </Navbar.Brand>
-                    <Navbar.Toggle />
-                    <Navbar.Collapse>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
                         {
                             this.state.userInfo !== "" ? 
                             <Nav className="ml-auto">
                                 <NavItem  
                                     name={"/profile/detail/"+this.state.userInfo.id} 
-                                    className={this.props.styles.nav_button+" mr-2"}
+                                    className={this.props.styles.nav_button+" mr-3"}
                                     onClick={this.auth_user_profile}>
                                         {this.state.userInfo.name}
                                 </NavItem>
-                                <NavItem><CollectedPosts styles={this.props.styles} update_nav={this.state.update_nav}/></NavItem >
-                                <NavItem  onClick={this.logoutUser} className={this.props.styles.nav_button+" ml-2"}>Logout</NavItem >
+                                <NavItem className="mr-3"><CollectedPosts styles={this.props.styles} update_nav={this.state.update_nav}/></NavItem >
+                                <NavItem  onClick={this.logoutUser} className={this.props.styles.nav_button}>Logout</NavItem >
                             </Nav>
                             :
                             <Nav className="ml-auto">
-                                <LinkContainer to="/register" className={this.props.styles.nav_button+" mr-2"}>
+                                <LinkContainer to="/register" className={this.props.styles.nav_button+" mr-3"}>
                                     <NavItem>Register</NavItem>
                                 </LinkContainer>
          
-                                <LinkContainer to="/login" className={this.props.styles.nav_button+" ml-2"}>
+                                <LinkContainer to="/login" className={this.props.styles.nav_button+" mr-3"}>
                                     <NavItem>Login</NavItem>
                                 </LinkContainer>
                             </Nav>

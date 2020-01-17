@@ -96,27 +96,30 @@ class Home extends Component{
     
                 content.push(
                     <Col sm md="3" className="pb-2" key={idx}>
-                        
-                            <div >
+                        <Container >
+                            <Row>
                                 <Link to={'/post/detail/'+post.id}>
-                                    <Image src={image_path} thumbnail className={this.props.styles.post_cover_img} />
-                                </Link>
-                                <div>
-                                <Link to={'/post/detail/'+post.id}>
-                                    <div><span>{post.title}</span><span className="float-right">{post_types[post.type]}</span></div>
-                                </Link>
-                                    <div>
-                                        <Link to={'/profile/detail/'+post.user_id}>
-                                            <span>
-                                                {post.name}
-                                            </span>
-                                        </Link>
-                                        <span className="float-right">
+                                    <div className={this.props.styles.post_cover_div}>
+                                        <div className={this.props.styles.post_cover_content}>
                                             <span><i className="far fa-eye"></i> {post.viewed}</span>   <span><i className="fas fa-thumbs-up"></i> {post.liked}</span>
-                                        </span>
+                                        </div>
+                                        <Image src={image_path} thumbnail className={this.props.styles.post_cover_img} />
                                     </div>
-                                </div>
-                            </div>
+                                </Link>
+                            </Row>
+                            <Row>
+                                <Container >
+                                    <Row>  
+                                        <div><Link to={'/post/detail/'+post.id}>{post.title}</Link></div>
+                                    </Row>
+                                    <Row>
+                                        <div >
+                                            <Link to={'/profile/detail/'+post.user_id}>{post.name}</Link>
+                                        </div>
+                                    </Row>
+                                </Container>
+                            </Row>
+                        </Container>
                     </Col>
                 )
     
@@ -131,7 +134,7 @@ class Home extends Component{
                 <br></br>
                 <br></br>
                 <br></br>
-                <Row className='justify-content-md-center'>
+                <Row className='justify-content-md-center ml-1'>
                     <Paging data_info = {this.state.posts} pagination={this.all_post_pagination} styles={this.props.styles}/>
                 </Row>
                 <br></br>

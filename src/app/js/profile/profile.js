@@ -164,29 +164,39 @@ class Profile extends Component{
     
                 content.push(
                     <Col sm md={3} className="pb-2" key={idx}>
-                        
-                            <div >
+
+                            <Container >
+                            <Row>
                                 <Link to={'/post/detail/'+post.id}>
-                                    <Image src={image_path} thumbnail className={this.props.styles.post_cover_img} />
-                                </Link>
-                                <div>
-                                    <Link to={'/post/detail/'+post.id}>
-                                        <div><span>{post.title}</span><span className="float-right">{post_types[post.type]}</span></div>
-                                    </Link>
-                                    <div>
-                                        <span>
-                                            <Link to={'/profile/detail/'+this.state.user_info.id}>
-                                                <span>
-                                                    {this.state.user_info.name}
-                                                </span>
-                                            </Link>
-                                        </span>
-                                        <span className="float-right">
+                                    <div className={this.props.styles.post_cover_div}>
+                                        <div className={this.props.styles.post_cover_content}>
                                             <span><i className="far fa-eye"></i> {post.viewed}</span>   <span><i className="fas fa-thumbs-up"></i> {post.liked}</span>
-                                        </span>
+                                        </div>
+                                        <Image src={image_path} thumbnail className={this.props.styles.post_cover_img} />
                                     </div>
-                                </div>
-                            </div>
+                                </Link>
+                            </Row>
+                            <Row>
+                                <Container >
+                                    <Row>  
+                                        <div ><Link to={'/post/detail/'+post.id}>{post.title}</Link></div>
+                                    </Row>
+                                    
+                                    {/* <Col  >{post_types[post.type]}</Col> */}
+                                    {/* <Row>
+                                        
+                                        <Col >
+                                            <span><i className="far fa-eye"></i> {post.viewed}</span>   <span><i className="fas fa-thumbs-up"></i> {post.liked}</span>
+                                        </Col>
+                                    </Row> */}
+                                    <Row>
+                                        <div >
+                                            <Link to={'/profile/detail/'+post.user_id}>{post.name}</Link>
+                                        </div>
+                                    </Row>
+                                </Container>
+                            </Row>
+                        </Container>
                     </Col>
                 )
     
@@ -199,13 +209,13 @@ class Profile extends Component{
             return(
                 <Container>
                     <Row className=''>
-                        <Col sm md={4}><Image width="300" height="300" src={profile_portrait}></Image></Col>
-                        <Col sm md={8}>
+                        <Col  lg={4}><Image width="300" height="300" src={profile_portrait}></Image></Col>
+                        <Col  lg={8}>
                             <Row><Col><h1>{this.state.user_info.name}</h1></Col></Row>
                             <Row>
-                                <Col sm md={2}><h6>Follower: {this.state.user_info.followerCount}</h6></Col> 
-                                <Col sm md={2}><h6>Following: {this.state.user_info.followingCount}</h6></Col> 
-                                <Col sm md={2}><h6>Post: {this.state.user_info.postCount}</h6></Col> 
+                                <Col  lg={2}><h6>Follower: {this.state.user_info.followerCount}</h6></Col> 
+                                <Col  lg={2}><h6>Following: {this.state.user_info.followingCount}</h6></Col> 
+                                <Col  lg={2}><h6>Post: {this.state.user_info.postCount}</h6></Col> 
                             </Row>
                             <br></br>
                             <Row><Col><h5>Signagure: {this.state.user_info.signature}</h5></Col></Row>
@@ -213,14 +223,14 @@ class Profile extends Component{
                             <Row>
                                 {this.state.auth_user != "" ?
                                     this.state.auth_user.id != this.state.user_info.id ?
-                                        <Col key={'follow_unfollow'} sm md={3}><Button variant={follow_status} onClick={this.follow_unfollow}>{follow_text}</Button></Col>   
+                                        <Col key={'follow_unfollow'}  lg={3}><Button variant={follow_status} onClick={this.follow_unfollow}>{follow_text}</Button></Col>   
                                         :
-                                        [<Col key={'edit'} sm md={1}>
+                                        [<Col key={'edit'}  lg={1}>
                                             <Link to={'/profile/edit'}>
                                                 <Button variant="primary">Edit</Button>
                                             </Link>
                                         </Col>, 
-                                        <Col key={'post'} sm md={2}>
+                                        <Col key={'post'}  lg={2}>
                                             <Link to={'/post/create'}>
                                                 <Button variant="danger">Add Post</Button>
                                             </Link>
@@ -242,7 +252,7 @@ class Profile extends Component{
                     <br></br>
                     <br></br>
                     <br></br>
-                    <Row className='justify-content-md-center'>
+                    <Row className='justify-content-md-center ml-1'>
                         <Paging data_info = {this.state.posts} pagination={this.user_post_pagination} styles={this.props.styles}/>
                     </Row>
                     <br></br>

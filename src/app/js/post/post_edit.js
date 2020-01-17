@@ -302,7 +302,7 @@ class Post_Edit extends Component{
                                 </div>
                                 <br></br>
                                 {this.state.cover_preview != "" ? 
-                                    <Row className="justify-content-md-center"><Col><Image src={this.state.cover_preview} thumbnail width='300' height='300'></Image></Col></Row>
+                                    <Row className="justify-content-md-center"><Col style={{textAlign:"center"}}><Image src={this.state.cover_preview} thumbnail width='300' height='300'></Image></Col></Row>
                                     :
                                     <span></span>
                                 }

@@ -88,7 +88,7 @@ class CollectedPosts extends Component{
                 let image_path = post.image_url.includes('post_cover/') ? "http://www.presentation-plus.com/storage/"+post.image_url : post.image_url;
 
                 content.push(
-                    <Link to={'/post/detail/'+post.post_id} key={id} target="_blank">
+                    <Link style={{marginLeft: "-5px"}} to={'/post/detail/'+post.post_id} key={id} target="_blank">
                         <Row value={'/post/detail/'+post.post_id} onClick={this.reloadPage}>
                             <Col>
                                 <Image src={image_path} className={this.props.styles.collected_post_img} ></Image>
@@ -121,6 +121,8 @@ class CollectedPosts extends Component{
                     <Container className={this.props.styles.dropdown_content}>
                         {content}
                     </Container>
+                    
+                    <div className={this.props.styles.dropdown_content + " " + this.props.styles.dropdown_content_btn}>Check All</div>
                 </div>
             );
         }

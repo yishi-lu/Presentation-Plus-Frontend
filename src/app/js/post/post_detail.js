@@ -74,8 +74,8 @@ class Post extends Component{
                             for (var i = 0; i < getAllImages.length && i < post_content_image.length; i++) {
                     
                                 getAllImages[i].src = "http://www.presentation-plus.com/storage/"+post_content_image[i].content_image;
-                                getAllImages[i].style.maxWidth  = "1200px";
-
+                                // getAllImages[i].style.maxWidth  = "1200px";
+                                getAllImages[i].classList.add("content_images");
                     
                             }
 
@@ -165,7 +165,7 @@ class Post extends Component{
                         </div>
                     </Row>
                     <Row><br/></Row>
-                    <Row className='justify-content-md-center'><div>{this.state.post_detail.description}</div></Row>
+                    <Row className='justify-content-md-center'><div class={this.props.styles.post_description}>{this.state.post_detail.description}</div></Row>
                     <Row><br/></Row>
                     <Row className='justify-content-md-center'><div>{ ReactHtmlParser (this.state.post_detail.content)}</div></Row>
                     <Row><br/></Row>

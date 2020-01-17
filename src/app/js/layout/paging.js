@@ -26,7 +26,7 @@ class Paging extends Component{
                     <li className="page-item">
                         <a className={this.props.styles.page_link + " page-link"} name={this.props.data_info.first_page_url} onClick={this.props.pagination}>First</a>
                     </li>
-                    <li className="page-item mr-3">
+                    <li className="page-item">
                         {this.props.data_info.current_page == 1?
                             <a className="page-link">Prev</a>
                             :
@@ -41,7 +41,7 @@ class Paging extends Component{
                             {page_menu}
                         </Dropdown.Menu>
                     </Dropdown>
-                    <li className="page-item ml-3">
+                    <li className="page-item">
                         {this.props.data_info.current_page == index_last?
                             <a className="page-link">Next</a>
                             :

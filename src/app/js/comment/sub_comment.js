@@ -120,8 +120,8 @@ class SubComment extends Component{
                             {comment.content}
                         </div>
                         <div>
-                            <span className="mr-5">{comment.created_at}</span>
-                            <span className="mr-5">
+                            <span className="mr-2">{comment.created_at}</span>
+                            <span className="mr-2">
                                 <i className={comment.is_liked ? this.props.styles.liked_style + " " + this.props.styles.hover_pointer + " fas fa-thumbs-up" :this.props.styles.hover_pointer + " fas fa-thumbs-up"} 
                                     id={comment.id} onClick={this.like_comment_initial}>
                                 </i>   

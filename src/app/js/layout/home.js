@@ -134,7 +134,7 @@ class Home extends Component{
                 <br></br>
                 <br></br>
                 <br></br>
-                <Row className='justify-content-md-center ml-1'>
+                <Row className='justify-content-md-center'>
                     <Paging data_info = {this.state.posts} pagination={this.all_post_pagination} styles={this.props.styles}/>
                 </Row>
                 <br></br>

@@ -165,7 +165,7 @@ class Post extends Component{
                         </div>
                     </Row>
                     <Row><br/></Row>
-                    <Row className='justify-content-md-center'><div class={this.props.styles.post_description}>{this.state.post_detail.description}</div></Row>
+                    <Row className='justify-content-md-center'><div className={this.props.styles.post_description}>{this.state.post_detail.description}</div></Row>
                     <Row><br/></Row>
                     <Row className='justify-content-md-center'><div>{ ReactHtmlParser (this.state.post_detail.content)}</div></Row>
                     <Row><br/></Row>

@@ -25,6 +25,7 @@ class Post extends Component{
         }
 
         this.collectPost = this.collectPost.bind(this);
+        this.thumbPost = this.thumbPost.bind(this);
     }
 
     componentDidMount(){
@@ -132,6 +133,37 @@ class Post extends Component{
             });
     }
 
+    thumbPost(event){
+        const id = event.target.id;
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+
+        const data = {post_id: id};
+
+        axios.post('http://www.presentation-plus.com/api/post/thumb', data, config)
+             .then(result => {
+                console.log(result);
+
+                this.setState(preState => {
+
+                    var post_detail = {...preState.post_detail};
+
+                    if(post_detail.is_thumbed == 0) post_detail.is_thumbed = 1;
+                    else post_detail.is_thumbed = 0;
+
+                    return {post_detail: post_detail}
+                });
+             })
+             .catch(error => {
+                console.log("ERRRR:: ",error);
+                // window.location.href = '/';
+            });
+    }
+
 
     render() {
 
@@ -155,9 +187,19 @@ class Post extends Component{
                             {
                                 this.state.auth_user != null ?
                                     this.state.post_detail.is_collected > 0 ? 
-                                            <span className='ml-3'><i style={{color: "#007bff"}}  className="fas fa-star" id={this.state.post_detail.id} onClick={this.collectPost}></i></span> 
+                                            <span className={this.props.styles.hover_pointer + " ml-3"}><i style={{color: "#007bff"}}  className="fas fa-star" id={this.state.post_detail.id} onClick={this.collectPost}></i></span> 
                                             :
-                                            <span className='ml-3'><i className="far fa-star" id={this.state.post_detail.id} onClick={this.collectPost}></i></span> 
+                                            <span className={this.props.styles.hover_pointer + " ml-3"}><i className="far fa-star" id={this.state.post_detail.id} onClick={this.collectPost}></i></span> 
+
+                                    : 
+                                    <span></span>
+                            }
+                            {
+                                this.state.auth_user != null ?
+                                    this.state.post_detail.is_thumbed > 0 ? 
+                                            <span className={this.props.styles.hover_pointer + " ml-3"}><i style={{color: "#007bff"}}  className="fas fa-thumbs-up" id={this.state.post_detail.id} onClick={this.thumbPost}></i></span> 
+                                            :
+                                            <span className={this.props.styles.hover_pointer + " ml-3"}><i className="far fa-thumbs-up" id={this.state.post_detail.id} onClick={this.thumbPost}></i></span> 
 
                                     : 
                                     <span></span>

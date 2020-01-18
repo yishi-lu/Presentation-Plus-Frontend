@@ -101,7 +101,7 @@ class Home extends Component{
                                 <Link to={'/post/detail/'+post.id}>
                                     <div className={this.props.styles.post_cover_div}>
                                         <div className={this.props.styles.post_cover_content}>
-                                            <span><i className="far fa-eye"></i> {post.viewed}</span>   <span><i className="fas fa-thumbs-up"></i> {post.liked}</span>
+                                            <span><i className="far fa-eye"></i> {post.viewed}</span>   <span><i className="fas fa-thumbs-up"></i> {post.count_thumbed}</span>
                                         </div>
                                         <Image src={image_path} thumbnail className={this.props.styles.post_cover_img} />
                                     </div>

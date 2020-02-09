@@ -30,7 +30,7 @@ class CollectedPosts extends Component{
                 }
             }
     
-            axios.get('http://www.presentation-plus.com/api/post/collectList', config)
+            axios.get(this.props.apiUrl+'/api/post/collectList', config)
                  .then(result => {
                     console.log(result);
     
@@ -57,7 +57,7 @@ class CollectedPosts extends Component{
             }
         }
 
-        axios.get('http://www.presentation-plus.com/api/post/collectList', config)
+        axios.get(this.props.apiUrl+'/api/post/collectList', config)
              .then(result => {
                 console.log(result);
 
@@ -85,7 +85,7 @@ class CollectedPosts extends Component{
         if(this.state.loaded_data){
 
             this.state.posts.forEach((post, id) => {
-                let image_path = post.image_url.includes('post_cover/') ? "http://www.presentation-plus.com/storage/"+post.image_url : post.image_url;
+                let image_path = post.image_url.includes('post_cover/') ? this.props.apiUrl+"/storage/"+post.image_url : post.image_url;
 
                 content.push(
                     <Link style={{marginLeft: "-5px"}} to={'/post/detail/'+post.post_id} key={id} target="_blank">
@@ -115,16 +115,27 @@ class CollectedPosts extends Component{
 
 
         if(this.state.loaded_data){
-            return(
-                <div className={this.props.styles.dropdown}>
-                    <div className={this.props.styles.dropbtn}>Collection</div>
-                    <Container className={this.props.styles.dropdown_content}>
-                        {content}
-                    </Container>
-                    
-                    <div className={this.props.styles.dropdown_content + " " + this.props.styles.dropdown_content_btn}>Check All</div>
-                </div>
-            );
+            if(content.length > 0)
+                return(
+                    <div className={this.props.styles.dropdown}>
+                        <div className={this.props.styles.dropbtn}>Collection</div>
+                        <Container className={this.props.styles.dropdown_content} style={{height:'295px'}}>
+                            {content}
+                        </Container>
+                        
+                        <div className={this.props.styles.dropdown_content + " " + this.props.styles.dropdown_content_btn}>Check All</div>
+                    </div>
+                );
+            else{
+                return(
+                    <div className={this.props.styles.dropdown}>
+                        <div className={this.props.styles.dropbtn}>Collection</div>
+                        <Container className={this.props.styles.dropdown_content}>
+                            No Collection
+                        </Container>
+                    </div>
+                )
+            }
         }
         else return(
             <div className={this.props.styles.dropdown}>

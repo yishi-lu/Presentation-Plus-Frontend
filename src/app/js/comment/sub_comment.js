@@ -36,9 +36,9 @@ class SubComment extends Component{
 
     post_subcomments_pagination(event){
 
-        var url = event.target.getAttribute('name');
+        // var url = event.target.getAttribute('name');
 
-        this.props.sub_comment_paging(url);
+        // this.props.sub_comment_paging(url);
     }
 
     create_subcomment(){
@@ -96,9 +96,9 @@ class SubComment extends Component{
                                     </div>
                                 </Row>
 
-        this.props.subcomments.data.forEach((comment, idx) => {
+        this.props.subcomments.forEach((comment, idx) => {
 
-            let image_path = comment.portrait.includes('profile_portrait/') ? "http://www.presentation-plus.com/storage/"+comment.portrait : comment.portrait;
+            let image_path = comment.portrait.includes('profile_portrait/') ? this.props.apiUrl+"/storage/"+comment.portrait : comment.portrait;
 
             content.push(
                 <Row key={idx} className="mt-4">
@@ -140,11 +140,11 @@ class SubComment extends Component{
         return(
             <Container>
                 {content}
-                {this.props.subcomments.total > 5 ?
+                {/* {this.props.subcomments.total > 5 ?
                     <Row className='justify-content-md-center mt-5 mb-3'><Paging data_info={this.props.subcomments} pagination={this.post_subcomments_pagination} styles={this.props.styles}/></Row>
                     :
                     <span></span>
-                }
+                } */}
                 {this.state.create_comment ? new_comment_form : <span></span>}
             </Container>
         )

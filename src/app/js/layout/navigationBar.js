@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import {
@@ -10,6 +9,7 @@ import {
     Link,
     Redirect,
     NavLink,
+    HashRouter,
 } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
@@ -24,6 +24,8 @@ import Post_Edit from '../post/post_edit.js';
 import Profile from '../profile/profile.js';
 import Edit_Profile from '../profile/edit_profile.js';
 import CollectedPosts from '../component/fetch_collected_posts.js';
+
+axios.defaults.withCredentials = true;
 
 // import styles from '../../css/main.css';
 
@@ -51,7 +53,7 @@ class NavigationBar extends Component{
 
     auth_user_profile(event){
 
-        name = event.target.getAttribute('name');
+        let name = event.target.getAttribute('name');
         window.location.assign(name);
 
     }
@@ -65,7 +67,7 @@ class NavigationBar extends Component{
         }
         
         
-        axios.get('http://www.presentation-plus.com/api/auth/logout', config)
+        axios.get(this.props.apiUrl+'/api/auth/logout', config)
              .then(result => {
                console.log(result);
     
@@ -74,7 +76,7 @@ class NavigationBar extends Component{
                 userInfo: "",
               });
 
-              localStorage.setItem("user", "");
+              localStorage.removeItem('user');
               window.location.assign('/');
 
              })
@@ -89,7 +91,7 @@ class NavigationBar extends Component{
 
     render() {
         return (
-            <Router>
+            <HashRouter hashType="noslash">
                 <Navbar bg="light" expand="sm">
                     <Navbar.Brand>
                         <LinkContainer to="/">
@@ -101,19 +103,20 @@ class NavigationBar extends Component{
                         {
                             this.state.userInfo !== "" ? 
                             <Nav className="ml-auto">
-                                <NavItem  
-                                    name={"/profile/detail/"+this.state.userInfo.id} 
-                                    className={this.props.styles.nav_button+" mr-3"}
-                                    onClick={this.auth_user_profile}>
-                                        {this.state.userInfo.name}
-                                </NavItem>
-                                <NavItem className="mr-3"><CollectedPosts styles={this.props.styles} update_nav={this.state.update_nav}/></NavItem >
+                                <LinkContainer to={"/profile/detail/"+this.state.userInfo.id}>
+                                    <NavItem  
+                                        className={this.props.styles.nav_button+" mr-3"}
+                                     >
+                                            {this.state.userInfo.name}
+                                    </NavItem>
+                                </LinkContainer>
+                                <NavItem className="mr-3"><CollectedPosts styles={this.props.styles} update_nav={this.state.update_nav} apiUrl={this.props.apiUrl}/></NavItem >
                                 <NavItem  onClick={this.logoutUser} className={this.props.styles.nav_button}>Logout</NavItem >
                             </Nav>
                             :
                             <Nav className="ml-auto">
                                 <LinkContainer to="/register" className={this.props.styles.nav_button+" mr-3"}>
-                                    <NavItem>Register</NavItem>
+                                    <NavItem >Register</NavItem>
                                 </LinkContainer>
          
                                 <LinkContainer to="/login" className={this.props.styles.nav_button+" mr-3"}>
@@ -132,58 +135,58 @@ class NavigationBar extends Component{
                     <Route exact path="/" 
                         render={
                             (props) => 
-                                <Home urlInfo={props} styles={this.props.styles} 
+                                <Home urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl}
                                 />
                             } 
                     />
                     <Route exact path="/login" 
                         render={
                             (props) => 
-                                <Login urlInfo={props} styles={this.props.styles} />
+                                <Login urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl}/>
                             } 
                     />
                     <Route exact path="/register" 
                         render={
                             (props) => 
-                                <Register urlInfo={props} styles={this.props.styles} />
+                                <Register urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl}/>
                             } 
                     />
 
                     <Route exact path="/post/detail/:id" 
                         render={
                             (props) => 
-                                <Post urlInfo={props} styles={this.props.styles} update_nav_fun={this.update_nav_fun}/>
+                                <Post urlInfo={props} styles={this.props.styles} update_nav_fun={this.update_nav_fun} apiUrl={this.props.apiUrl}/>
                             } 
                     />
                     <Route exact path="/post/create" 
                         render={
                             (props) => 
-                                <Post_Creation urlInfo={props} styles={this.props.styles}/>
+                                <Post_Creation urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl}/>
                             } 
                     />
                     <Route exact path="/post/edit/:id" 
                         render={
                             (props) => 
-                                <Post_Edit urlInfo={props} styles={this.props.styles}/>
+                                <Post_Edit urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl}/>
                             } 
                     />
 
                     <Route exact path="/profile/detail/:id" 
                         render={
                             (props) => 
-                                <Profile urlInfo={props} styles={this.props.styles} />
+                                <Profile urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl} />
                             } 
                     />
                     <Route exact path="/profile/edit" 
                         render={
                             (props) => 
-                                <Edit_Profile urlInfo={props} styles={this.props.styles} user={this.state.userInfo}/>
+                                <Edit_Profile urlInfo={props} styles={this.props.styles} user={this.state.userInfo} apiUrl={this.props.apiUrl}/>
                             } 
                     />
                     
                     <Redirect to="/"/>
                 </Switch>
-            </Router>
+            </HashRouter>
             
         );
     }

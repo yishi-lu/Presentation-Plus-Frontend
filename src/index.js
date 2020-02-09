@@ -3,7 +3,9 @@ import {render} from 'react-dom';
 
 import App from './app/js/app.js';
 
-render(<App />, document.getElementById('root'));
+import styles from './app/css/main.module.css';
+
+render(<App styles={styles}/>, document.getElementById('root'));
 
 
 //================================================================================

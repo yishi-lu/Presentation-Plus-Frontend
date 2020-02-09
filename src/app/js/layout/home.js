@@ -5,8 +5,6 @@ import {
 import { Button, Container, Row, Col, Image } from 'react-bootstrap';
 
 import axios from 'axios';
-
-// import styles from '../css/main.css';
 import Paging from './paging.js';
 
 class Home extends Component{
@@ -29,8 +27,8 @@ class Home extends Component{
                 'Content-Type': 'application/json',
             }
         }
-
-        axios.get('http://www.presentation-plus.com/api/post/all', config)
+        // console.log(this.props.apiUrl);
+        axios.get(this.props.apiUrl + '/api/post/all', config)
              .then(result => {
                 console.log(result);
 
@@ -92,7 +90,7 @@ class Home extends Component{
         else {
             this.state.posts.data.forEach((post, idx) => {
 
-                let image_path = post.image_url.includes('post_cover/') ? "http://www.presentation-plus.com/storage/"+post.image_url : post.image_url;
+                let image_path = post.image_url.includes('post_cover/') ? this.props.apiUrl+"/storage/"+post.image_url : post.image_url;
     
                 content.push(
                     <Col sm md="3" className="pb-2" key={idx}>

@@ -53,7 +53,7 @@ class Edit_Profile extends Component{
             
         }
 
-        axios.post('http://www.presentation-plus.com/api/profile/detail',  data, config)
+        axios.post(this.props.apiUrl+'/api/profile/detail',  data, config)
              .then(result => {
                 console.log(result);
 
@@ -80,7 +80,7 @@ class Edit_Profile extends Component{
     update_profile(event){
         event.preventDefault();
         
-        let url = "http://www.presentation-plus.com/api/profile/edit";
+        let url = this.props.apiUrl+"/api/profile/edit";
 
         const config = {
             headers: {
@@ -119,7 +119,7 @@ class Edit_Profile extends Component{
 
     }
 
-    cancel_update(){
+    cancel_update(event){
         event.preventDefault(); 
 
         this.setState(preState=>{
@@ -195,7 +195,7 @@ class Edit_Profile extends Component{
         if(this.state.loaded_data){
 
             let new_portrait = "";
-            if(this.state.portrait_preview.includes('profile_portrait/')) new_portrait = "http://www.presentation-plus.com/storage/" + this.state.portrait_preview;
+            if(this.state.portrait_preview.includes('profile_portrait/')) new_portrait = this.props.apiUrl+"/storage/" + this.state.portrait_preview;
             else new_portrait = this.state.portrait_preview;
 
             return (

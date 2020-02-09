@@ -40,7 +40,7 @@ class Comment extends Component{
         this.createComment = this.createComment.bind(this);
         this.show_subcomment_form = this.show_subcomment_form.bind(this);
         this.create_comment_initial = this.create_comment_initial.bind(this);
-        this.sub_comment_paging = this.sub_comment_paging.bind(this);
+        // this.sub_comment_paging = this.sub_comment_paging.bind(this);
         this.like_comment = this.like_comment.bind(this);
         this.like_comment_initial = this.like_comment_initial.bind(this);
     }
@@ -57,7 +57,7 @@ class Comment extends Component{
             return;
         }
 
-        const url = "http://www.presentation-plus.com/api/comment/thumb";
+        const url = this.props.apiUrl+"/api/comment/thumb";
 
         const config = {
             headers: {
@@ -79,7 +79,7 @@ class Comment extends Component{
                     }
                 }
 
-                const url = 'http://www.presentation-plus.com/api/comment/postComments/'+post_id;
+                const url = this.props.apiUrl+'/api/comment/postComments/'+post_id;
 
                 axios.get(url, config)
                     .then(result => {
@@ -139,17 +139,13 @@ class Comment extends Component{
             return;
         }
 
-        const url = "http://www.presentation-plus.com/api/comment/create";
+        const url = this.props.apiUrl+"/api/comment/create";
 
         const config = {
             headers: {
                 'Content-Type': 'application/json',
             }
         }
-
-        // console.log(title)
-        // console.log(content)
-        // console.log(threadID)
 
         var data;
         if(title == "-1" && content == "-1" && threadID == "-1"){
@@ -179,7 +175,7 @@ class Comment extends Component{
                     }
                 }
 
-                const url = 'http://www.presentation-plus.com/api/comment/postComments/'+post_id;
+                const url = this.props.apiUrl+'/api/comment/postComments/'+post_id;
 
                 axios.get(url, config)
                     .then(result => {
@@ -251,41 +247,7 @@ class Comment extends Component{
 
     post_comments_pagination(event){
         var url = event.target.getAttribute('name');
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }
-
-        axios.get(url, config)
-             .then(result => {
-                // console.log(result.data.success.data);
-
-                if(!Array.isArray(result.data.success.data)){
-                    // let temp = result.data.success.data;
-                    // let arr = Object.keys(temp).map((k) => temp[k]);
-                    // result.data.success.data = arr;
-                    result.data.success.data = Object.keys(result.data.success.data).map((k) => result.data.success.data[k]);
-                }
-
-                result.data.success.data.map(item=> item.addSub = false)
-
-                this.setState({
-                    comments: result.data.success,
-                    loaded_data: true,
-                })
-             })
-             .catch(error => {
-                console.log("ERRRR:: ",error);
-
-            }
-        );
-    }
-
-    sub_comment_paging(url){
         console.log(url);
-
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -316,6 +278,40 @@ class Comment extends Component{
             }
         );
     }
+
+    // sub_comment_paging(url){
+    //     console.log(url);
+
+    //     const config = {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         }
+    //     }
+
+    //     axios.get(url, config)
+    //          .then(result => {
+    //             // console.log(result.data.success.data);
+
+    //             if(!Array.isArray(result.data.success.data)){
+    //                 // let temp = result.data.success.data;
+    //                 // let arr = Object.keys(temp).map((k) => temp[k]);
+    //                 // result.data.success.data = arr;
+    //                 result.data.success.data = Object.keys(result.data.success.data).map((k) => result.data.success.data[k]);
+    //             }
+
+    //             result.data.success.data.map(item=> item.addSub = false)
+
+    //             this.setState({
+    //                 comments: result.data.success,
+    //                 loaded_data: true,
+    //             })
+    //          })
+    //          .catch(error => {
+    //             console.log("ERRRR:: ",error);
+
+    //         }
+    //     );
+    // }
 
     componentDidMount(){
         
@@ -327,7 +323,7 @@ class Comment extends Component{
             }
         }
 
-        const url = 'http://www.presentation-plus.com/api/comment/postComments/'+post_id;
+        const url = this.props.apiUrl+'/api/comment/postComments/'+post_id;
 
         axios.get(url, config)
              .then(result => {
@@ -380,7 +376,7 @@ class Comment extends Component{
 
                     // console.log(comment);
 
-                    let image_path = comment.portrait.includes('profile_portrait/') ? "http://www.presentation-plus.com/storage/"+comment.portrait : comment.portrait;
+                    let image_path = comment.portrait.includes('profile_portrait/') ? this.props.apiUrl+"/storage/"+comment.portrait : comment.portrait;
         
                     content.push(
                         <Row key={idx} className="mt-4 border-bottom pb-3">
@@ -435,14 +431,15 @@ class Comment extends Component{
                                     </Row>
                                 
                                 : <span></span>}
-                                {comment.sub_comments.data.length > 0 
+                                {comment.sub_comments.length > 0 
                                     ? 
                                     <SubComment 
                                         like_comment={this.like_comment} 
-                                        sub_comment_paging={this.sub_comment_paging} 
+                                        // sub_comment_paging={this.sub_comment_paging} 
                                         subcomments={comment.sub_comments} 
                                         styles={this.props.styles} threadID={comment.id} 
                                         createComment={this.createComment}
+                                        apiUrl={this.props.apiUrl}
                                     />  
                                     : 
                                     <span></span>}
@@ -457,7 +454,7 @@ class Comment extends Component{
                     <Container>
                         {content}
                         <Row className='mt-5 mb-3'>
-                            <Paging data_info={this.state.comments} pagination={this.post_comments_pagination} styles={this.props.styles}/>
+                            <Paging data_info={this.state.comments} pagination={this.post_comments_pagination} styles={this.props.styles} type={"main_comment"}/>
                         </Row>
                         {new_comment_form}
                     </Container>

@@ -38,7 +38,7 @@ class Profile extends Component{
 
     follow_unfollow(event){
 
-        var url = "http://www.presentation-plus.com/api/profile/follow_unfollow";
+        var url = this.props.apiUrl+"/api/profile/follow_unfollow";
 
         var data = {profile_id: this.state.user_info.profile_id};
 
@@ -109,7 +109,7 @@ class Profile extends Component{
     componentDidMount(){
 
         let id = this.props.urlInfo.match.params.id;
-        // console.log(id);
+        console.log(id);
 
         let data = {profile_id: id, need_post: 1};
 
@@ -119,7 +119,7 @@ class Profile extends Component{
             }
         }
 
-        axios.post('http://www.presentation-plus.com/api/profile/detail', data, config)
+        axios.post(this.props.apiUrl+'/api/profile/detail', data, config)
              .then(result => {
                 console.log(result);
 
@@ -155,12 +155,12 @@ class Profile extends Component{
                 follow_text = "Unfollow"; 
             }
     
-            if(this.state.user_info.portrait.includes('profile_portrait/')) profile_portrait = "http://www.presentation-plus.com/storage/" + this.state.user_info.portrait;
+            if(this.state.user_info.portrait.includes('profile_portrait/')) profile_portrait = this.props.apiUrl+"/storage/" + this.state.user_info.portrait;
             else profile_portrait = this.state.user_info.portrait;
 
             this.state.posts.data.forEach((post, idx) => {
 
-                let image_path = post.image_url.includes('post_cover/') ? "http://www.presentation-plus.com/storage/"+post.image_url : post.image_url;
+                let image_path = post.image_url.includes('post_cover/') ? this.props.apiUrl+"/storage/"+post.image_url : post.image_url;
     
                 content.push(
                     <Col sm md={3} className="pb-2" key={idx}>
@@ -221,7 +221,7 @@ class Profile extends Component{
                             <Row><Col><h5>Signagure: {this.state.user_info.signature}</h5></Col></Row>
                             <br></br>
                             <Row>
-                                {this.state.auth_user != "" ?
+                                {this.state.auth_user != null && this.state.auth_user != "" ?
                                     this.state.auth_user.id != this.state.user_info.id ?
                                         <Col key={'follow_unfollow'}  lg={3}><Button variant={follow_status} onClick={this.follow_unfollow}>{follow_text}</Button></Col>   
                                         :
@@ -253,7 +253,7 @@ class Profile extends Component{
                     <br></br>
                     <br></br>
                     <Row className='justify-content-md-center'>
-                        <Paging data_info = {this.state.posts} pagination={this.user_post_pagination} styles={this.props.styles}/>
+                        <Paging data_info = {this.state.posts} pagination={this.user_post_pagination} styles={this.props.styles} apiUrl={this.props.apiUrl}/>
                     </Row>
                     <br></br>
                     <br></br>

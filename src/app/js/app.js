@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavigationBar from './layout/navigationBar.js';
+import apiUrl from './env.js';
 
-import styles from '../css/main.css';
 
 class App extends Component{
 
@@ -10,9 +10,11 @@ class App extends Component{
   }
 
   render() {
+    console.log(apiUrl);
+
     return (
       <div>
-        <NavigationBar styles={styles}/>
+        <NavigationBar styles={this.props.styles} apiUrl={apiUrl}/>
         
       </div>
     );

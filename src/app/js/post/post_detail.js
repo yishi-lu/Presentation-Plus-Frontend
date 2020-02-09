@@ -38,7 +38,7 @@ class Post extends Component{
             }
         }
 
-        axios.get('http://www.presentation-plus.com/api/post/detail/'+post_id, config)
+        axios.get(this.props.apiUrl+'/api/post/detail/'+post_id, config)
              .then(result => {
                 console.log(result);
 
@@ -49,7 +49,7 @@ class Post extends Component{
                     function(){
 
                         let image_path = this.state.post_detail.image_url.includes('post_cover/') ? 
-                            "http://www.presentation-plus.com/storage/"+this.state.post_detail.image_url
+                            this.props.apiUrl+"/storage/"+this.state.post_detail.image_url
                             : 
                             this.state.post_detail.image_url
 
@@ -74,7 +74,7 @@ class Post extends Component{
 
                             for (var i = 0; i < getAllImages.length && i < post_content_image.length; i++) {
                     
-                                getAllImages[i].src = "http://www.presentation-plus.com/storage/"+post_content_image[i].content_image;
+                                getAllImages[i].src = this.props.apiUrl+"/storage/"+post_content_image[i].content_image;
                                 // getAllImages[i].style.maxWidth  = "1200px";
                                 getAllImages[i].classList.add("content_images");
                     
@@ -109,7 +109,7 @@ class Post extends Component{
 
         const data = {post_id: id};
 
-        axios.post('http://www.presentation-plus.com/api/post/collect', data, config)
+        axios.post(this.props.apiUrl+'/api/post/collect', data, config)
              .then(result => {
                 console.log(result);
 
@@ -144,7 +144,7 @@ class Post extends Component{
 
         const data = {post_id: id};
 
-        axios.post('http://www.presentation-plus.com/api/post/thumb', data, config)
+        axios.post(this.props.apiUrl+'/api/post/thumb', data, config)
              .then(result => {
                 console.log(result);
 
@@ -167,7 +167,7 @@ class Post extends Component{
 
     render() {
 
-        // console.log(this.statepost_detail.image_url);
+        // console.log(this.state.post_detail.image_url);
 
         if(this.state.loaded_data){
             return (
@@ -178,7 +178,7 @@ class Post extends Component{
                     <Row><br/></Row>
                     <Row className='justify-content-md-center'>
                         <div>
-                            <span className='mr-3'><a href={'/profile/detail/'+this.state.post_detail.user_id}>Author: {this.state.post_detail.author_name}</a></span>
+                            <span className='mr-3'><Link to={'/profile/detail/'+this.state.post_detail.user_id}>Author: {this.state.post_detail.author_name}</Link></span>
                             <span className='ml-3'>Date: {this.state.post_detail.created_at}</span>
                             {this.state.auth_user != null && (this.state.auth_user.id == this.state.post_detail.user_id)? 
                                 <span className='ml-3'><Link to={"/post/edit/"+this.state.post_detail.id}><i className="fas fa-edit"></i></Link></span> : 
@@ -212,7 +212,7 @@ class Post extends Component{
                     <Row className='justify-content-md-center'><div>{ ReactHtmlParser (this.state.post_detail.content)}</div></Row>
                     <Row><br/></Row>
                     <Row className='border-bottom'><br/></Row>
-                    <Row><Comment postID={this.props.urlInfo.match.params.id} styles={this.props.styles}></Comment></Row>
+                    <Row><Comment postID={this.props.urlInfo.match.params.id} styles={this.props.styles} apiUrl={this.props.apiUrl}></Comment></Row>
                 </Container>
             );
         }

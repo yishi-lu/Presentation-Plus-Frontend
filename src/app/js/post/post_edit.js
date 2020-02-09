@@ -43,7 +43,7 @@ class Post_Edit extends Component{
             }
         }
 
-        axios.get('http://www.presentation-plus.com/api/post/detail/'+post_id, config)
+        axios.get(this.props.apiUrl+'/api/post/detail/'+post_id, config)
              .then(result => {
                 console.log(result);
 
@@ -54,7 +54,7 @@ class Post_Edit extends Component{
                     function(){
 
                         let image_path = this.state.post_detail.image_url.includes('post_cover/') ? 
-                            "http://www.presentation-plus.com/storage/"+this.state.post_detail.image_url
+                            this.props.apiUrl+"/storage/"+this.state.post_detail.image_url
                             : 
                             this.state.post_detail.image_url
 
@@ -78,7 +78,7 @@ class Post_Edit extends Component{
 
                             for (var i = 0; i < getAllImages.length && i < post_content_image.length; i++) {
                     
-                                getAllImages[i].src = "http://www.presentation-plus.com/storage/"+post_content_image[i].content_image;
+                                getAllImages[i].src = this.props.apiUrl+"/storage/"+post_content_image[i].content_image;
                     
                             }
 
@@ -155,7 +155,7 @@ class Post_Edit extends Component{
     }
 
 
-    update_post(){
+    update_post(event){
         event.preventDefault(); 
 
         const config = {
@@ -224,11 +224,11 @@ class Post_Edit extends Component{
                 formData.append('type', this.state.post_detail.type);
                 formData.append('visibility', this.state.post_detail.visibility);
 
-                axios.post('http://www.presentation-plus.com/api/post/edit', formData, config)
+                axios.post(this.props.apiUrl+'/api/post/edit', formData, config)
                     .then(result => {
                         console.log(result);
                         alert('Post is successfully updated!');
-                        window.location.href = '/post/detail/'+this.state.post_detail.id;
+                        window.location.href = '/#post/detail/'+this.state.post_detail.id;
 
                     })
                     .catch(error => {
@@ -241,7 +241,7 @@ class Post_Edit extends Component{
         )
     }
 
-    cancel_edit(){
+    cancel_edit(event){
         event.preventDefault(); 
         this.setState({
             post_detail: this.state.post_old_data,

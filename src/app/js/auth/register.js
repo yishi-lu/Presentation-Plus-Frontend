@@ -37,7 +37,7 @@ class Register extends Component{
     
         console.log(credentials);
 
-        axios.post('http://www.presentation-plus.com/api/auth/register', credentials, config)
+        axios.post(this.props.apiUrl+'/api/auth/register', credentials, config)
            .then(result => {
              console.log(result);
   

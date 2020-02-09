@@ -74,7 +74,7 @@ class Post_Creation extends Component{
     }
 
 
-    create_post(){
+    create_post(event){
         event.preventDefault(); 
 
         const config = {
@@ -103,7 +103,7 @@ class Post_Creation extends Component{
         
                     contentImage.push(image_file);
         
-                    getAllImages[i].src = "presentation_plus_image";
+                    getAllImages[i].src = "image"+i+"";
         
                 }
 
@@ -129,11 +129,11 @@ class Post_Creation extends Component{
                 formData.append('type', this.state.type);
                 formData.append('visibility', this.state.visibility);
 
-                axios.post('http://www.presentation-plus.com/api/post/create', formData, config)
+                axios.post(this.props.apiUrl+'/api/post/create', formData, config)
                     .then(result => {
                         console.log(result);
                         alert('Post is successfully created!');
-                        window.location.href = '/post/detail/'+result.data.success.id;
+                        window.location.href = '/#post/detail/'+result.data.success.id;
 
                     })
                     .catch(error => {

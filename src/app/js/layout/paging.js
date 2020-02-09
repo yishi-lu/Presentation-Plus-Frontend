@@ -12,9 +12,11 @@ class Paging extends Component{
 
         let page_menu = [], index_first = 1, index_last = this.props.data_info.last_page;
 
+        let pageDescriptor = this.props.type === "main_comment" ? "?mainCommentPage=" : "?page=";
+
         for(let i=index_first; i<=index_last; i++){
             page_menu.push(
-            <Dropdown.Item key={i} name={this.props.data_info.path + "/?page=" + i} onClick={this.props.pagination}>Page: {i}</Dropdown.Item>
+            <Dropdown.Item key={i} name={this.props.data_info.path + pageDescriptor + i} onClick={this.props.pagination}>Page: {i}</Dropdown.Item>
             )
         }
 

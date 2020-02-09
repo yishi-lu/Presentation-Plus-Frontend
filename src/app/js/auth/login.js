@@ -31,7 +31,7 @@ class Login extends Component{
   
       console.log(credentials);
   
-      axios.post('http://www.presentation-plus.com/api/auth/login', credentials, config)
+      axios.post(this.props.apiUrl+'/api/auth/login', credentials, config)
            .then(result => {
              console.log(result);
   

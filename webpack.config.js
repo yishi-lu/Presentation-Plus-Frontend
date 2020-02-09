@@ -20,10 +20,11 @@ module.exports = {
         // `/public' would be referring to `mydomain.com/public/` instead of just
         // `mydomain.com`.
         contentBase: __dirname + "/public",//本地服务器所加载的页面所在的目录, 默认webpack-dev-server会为根文件夹提供本地服务器，如果想为另外一个目录下的文件提供本地服务器，应该在这里设置其所在目录（本例设置到“public"目录）
-        // port: "8080", //设置默认监听端口，如果省略，默认为”8080“
+        port: "8081", //设置默认监听端口，如果省略，默认为”8080“
         historyApiFallback: true,//不跳转, 在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
         // inline: true//实时刷新, 设置为true，当源文件改变时会自动刷新页面
         watchContentBase: true,
+        hot: true
 
     },
 
@@ -43,7 +44,10 @@ module.exports = {
                 //     {
                 //         loader: "style-loader"
                 //     }, {
-                //         loader: "css-loader"
+                //         loader: "css-loader",
+                //         options: {
+                //             modules: true,
+                //           },
                 //     }
                 // ]
                 test: /\.css$/,

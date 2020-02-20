@@ -25,6 +25,8 @@ import Profile from '../profile/profile.js';
 import Edit_Profile from '../profile/edit_profile.js';
 import CollectedPosts from '../component/fetch_collected_posts.js';
 
+import Message from '../message/message.js';
+
 axios.defaults.withCredentials = true;
 
 // import styles from '../../css/main.css';
@@ -110,6 +112,13 @@ class NavigationBar extends Component{
                                             {this.state.userInfo.name}
                                     </NavItem>
                                 </LinkContainer>
+                                <LinkContainer to={"/message"}>
+                                    <NavItem  
+                                        className={this.props.styles.nav_button+" mr-3"}
+                                     >
+                                            Messages
+                                    </NavItem>
+                                </LinkContainer>
                                 <NavItem className="mr-3"><CollectedPosts styles={this.props.styles} update_nav={this.state.update_nav} apiUrl={this.props.apiUrl}/></NavItem >
                                 <NavItem  onClick={this.logoutUser} className={this.props.styles.nav_button}>Logout</NavItem >
                             </Nav>
@@ -151,6 +160,13 @@ class NavigationBar extends Component{
                                 <Register urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl}/>
                             } 
                     />
+
+                    <Route exact path="/message" 
+                        render={
+                            (props) => 
+                                <Message urlInfo={props} styles={this.props.styles} apiUrl={this.props.apiUrl} user={this.state.userInfo}/>
+                            } 
+                    />      
 
                     <Route exact path="/post/detail/:id" 
                         render={

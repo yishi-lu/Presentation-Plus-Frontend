@@ -11,7 +11,7 @@ module.exports = {
         // trying to write files to a `dist` folder at the root of my HD.
 
         path: path.resolve(__dirname, 'dist'),//output directory
-        publicPath: '/dist',
+        publicPath: '/assets',
         filename: "bundle.js"//bundled file name
     },
 

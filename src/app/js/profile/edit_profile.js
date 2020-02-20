@@ -103,7 +103,7 @@ class Edit_Profile extends Component{
                 console.log(result);
 
                 alert('Updated Successfully!');
-                window.location.href = '/profile/detail/'+this.state.user_info.id;
+                window.location.href = '/#profile/detail/'+this.state.user_info.id;
 
 
              })

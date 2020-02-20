@@ -138,7 +138,9 @@ class Post_Creation extends Component{
                     })
                     .catch(error => {
                         console.log("ERRRR:: ",error);
-                        // window.location.href = '/';
+                        this.setState({
+                            error_msg: error.response.data.errors,
+                        })
                     }
                 );
             }
@@ -186,7 +188,6 @@ class Post_Creation extends Component{
                                 <Form.Label>Description (200 character)</Form.Label>
                                 <Form.Control name="description" as="textarea" rows="3" onChange={this.changeInput} value={this.state.description}/>
                             </Form.Group>
-                            {this.state.error_msg.description != "" ? <div className={this.props.styles.error_message + ' mt-2 mb-3'} >{this.state.error_msg.description}</div> : ""}
 
                             <Form.Group controlId="formBasicCover">
                                 <Form.Label>Post Cover (.gif, .jpg, .jpeg, .png)</Form.Label>
@@ -245,6 +246,8 @@ class Post_Creation extends Component{
                             <Form.Group controlId="basicFormContent">
                                 {this.state.type == 1 ? <Editable_Area name='content' value={this.state.content} changeContent={this.handleContentChange} /> : <span></span>}
                             </Form.Group>
+                            {this.state.error_msg.content != "" ? <div className={this.props.styles.error_message + ' mt-2 mb-3'} >{this.state.error_msg.content}</div> : ""}
+
 
                             <br></br>
                             <br></br>

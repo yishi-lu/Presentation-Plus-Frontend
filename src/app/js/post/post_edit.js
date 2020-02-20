@@ -233,8 +233,11 @@ class Post_Edit extends Component{
                     })
                     .catch(error => {
                         console.log("ERRRR:: ",error);
-                        alert('Unable to update the post, please try again later or contact admin');
-                        window.location.href = '/';
+                        // alert('Unable to update the post, please try again later or contact admin');
+                        // // window.location.href = '/';
+                        this.setState({
+                            error_msg: error.response.data.errors,
+                        })
                     }
                 );
             }
@@ -252,8 +255,8 @@ class Post_Edit extends Component{
 
     render(){
 
-        console.log(this.state.post_detail)
-
+        // console.log(this.state.post_detail);
+        console.log(this.state.error_msg);
         return(
 
             <Container>
@@ -267,7 +270,7 @@ class Post_Edit extends Component{
 
                             <Form.Group controlId="formBasicTitle">
                                 <Form.Label>Title</Form.Label>
-                                <Form.Control name="title" as="textarea" rows="3" onChange={this.changeInput} value={this.state.post_detail.title}/>
+                                <Form.Control name="title" onChange={this.changeInput} value={this.state.post_detail.title}/>
                             </Form.Group>
                             {this.state.error_msg.title != "" ? <div className={this.props.styles.error_message + ' mt-2 mb-3'} >{this.state.error_msg.title}</div> : ""}
 
@@ -275,7 +278,6 @@ class Post_Edit extends Component{
                                 <Form.Label>Description (200 character)</Form.Label>
                                 <Form.Control name="description" as="textarea" rows="3" onChange={this.changeInput} value={this.state.post_detail.description == null?"":this.state.post_detail.description}/>
                             </Form.Group>
-                            {this.state.error_msg.description != "" ? <div className={this.props.styles.error_message + ' mt-2 mb-3'} >{this.state.error_msg.description}</div> : ""}
 
                             <Form.Group controlId="formBasicCover">
                                 <Form.Label>Post Cover (.gif, .jpg, .jpeg, .png)</Form.Label>
@@ -333,6 +335,8 @@ class Post_Edit extends Component{
                             <Form.Group controlId="basicFormContent">
                                 {this.state.post_detail.type == 1 ? <Editable_Area name='content' value={this.state.post_detail.content} changeContent={this.handleContentChange} /> : <span></span>}
                             </Form.Group>
+                            {this.state.error_msg.content != "" ? <div className={this.props.styles.error_message + ' mt-2 mb-3'} >{this.state.error_msg.content}</div> : ""}
+
 
                             <br></br>
                             <br></br>
